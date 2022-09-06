@@ -8,34 +8,48 @@
 import XCTest
 
 class KitchenRecipesUITests: XCTestCase {
+    
+    let app = XCUIApplication()
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
+    func testRunApp() throws {
         // UI tests must launch the application that they test.
-        let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    
+    func testShowRecipeDetailAndBack() {
+        app.staticTexts["Causa Rellena"].tap()
+        sleep(2)
+        app.navigationBars.buttons["Recetas"].tap()
+        sleep(2)
+        app.staticTexts["Papa Rellena"].tap()
+        sleep(2)
+        app.navigationBars.buttons["Recetas"].tap()
+        sleep(3)
+    }
+    
+    func testShowRecipeSourceAndBack() {
+        app.staticTexts["Lomo Saltado"].tap()
+        sleep(2)
+        app.buttons["Ver Origen"].tap()
+        sleep(2)
+        app.navigationBars.buttons["Lomo Saltado"].tap()
+        sleep(2)
+        app.navigationBars.buttons["Recetas"].tap()
+        sleep(2)
+    }
+    
+    func testShowRecipeSourceAndInteractWithMap() {
+        app.staticTexts["Lomo Saltado"].tap()
+        sleep(2)
+        app.buttons["Ver Origen"].tap()
+        sleep(2)
+        let map = app.otherElements.matching(identifier: "GMSMapView").element(boundBy: 0)
+        map.pinch(withScale: 2, velocity: 1)
+        map.rotate(CGFloat.pi/3, withVelocity: 1.0)
+        map.swipeLeft()
+        map.swipeRight()
+        map.swipeDown()
+        map.swipeDown()
+        sleep(2)
     }
 }

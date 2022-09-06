@@ -16,7 +16,10 @@ class MapViewController: UIViewController {
 
   override func loadView() {
     super.loadView()
+    map.accessibilityElementsHidden = false
+    map.accessibilityIdentifier = "GMSMapView"
     self.view = map
+      
   }
 }
 
